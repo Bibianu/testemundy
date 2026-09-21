@@ -124,7 +124,29 @@ function Projects() {
 
 function Institution() {
   const stats = [["24", "anos de história"], ["10", "edifícios entregues"], ["24 mil", "m² construídos"], ["42 mi", "de VGV negociados"]];
-  return <section id="construtora" className="bg-sand py-20 lg:py-28"><div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-12 lg:px-10"><Reveal className="lg:col-span-5"><p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">A Construtora</p><h2 className="mt-4 font-display text-4xl leading-tight text-brand sm:text-5xl">Há 24 anos, construindo valor na Zona Sul de BH.</h2><div className="mt-6 space-y-5 leading-relaxed text-brand/65"><p>Desde os anos 2000, a Mundy Construtora já entregou centenas de apartamentos nos bairros Anchieta, Cruzeiro, Serra, Sion e Vila Paris. Apartamentos com metragens e plantas flexíveis, para diferentes necessidades, mas sempre com um ponto em comum: o elevado padrão de qualidade, representando um upgrade na vida dos futuros moradores.</p><p>E, claro, a conveniência de uma localização perto de tudo, naqueles terrenos que são uma raridade nos melhores bairros da Zona Sul de BH.</p></div></Reveal><Reveal className="lg:col-span-7" delay={.12}><div className="relative overflow-hidden rounded-[2rem]"><img src={heroImage} alt="Arquitetura de um empreendimento Mundy" loading="lazy" className="aspect-[16/10] w-full object-cover" /><div className="absolute inset-0 bg-brand/10" /></div></div></Reveal><div className="grid grid-cols-2 gap-8 border-t border-brand/15 pt-10 md:grid-cols-4 lg:col-span-12">{stats.map(([number, label], index) => <Reveal key={label} delay={index * .08}><p className="font-display text-4xl text-brand sm:text-5xl">{number}</p><p className="mt-2 text-xs font-semibold uppercase text-brand/55">{label}</p></Reveal>)}</div></div></section>;
+  return (
+    <section id="construtora" className="bg-sand py-20 lg:py-28">
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-12 lg:px-10">
+        <Reveal className="lg:col-span-5">
+          <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">A Construtora</p>
+          <h2 className="mt-4 font-display text-4xl leading-tight text-brand sm:text-5xl">Há 24 anos, construindo valor na Zona Sul de BH.</h2>
+          <div className="mt-6 space-y-5 leading-relaxed text-brand/65">
+            <p>Desde os anos 2000, a Mundy Construtora já entregou centenas de apartamentos nos bairros Anchieta, Cruzeiro, Serra, Sion e Vila Paris. Apartamentos com metragens e plantas flexíveis, para diferentes necessidades, mas sempre com um ponto em comum: o elevado padrão de qualidade, representando um upgrade na vida dos futuros moradores.</p>
+            <p>E, claro, a conveniência de uma localização perto de tudo, naqueles terrenos que são uma raridade nos melhores bairros da Zona Sul de BH.</p>
+          </div>
+        </Reveal>
+        <Reveal className="lg:col-span-7" delay={.12}>
+          <div className="relative overflow-hidden rounded-[2rem]">
+            <img src={heroImage} alt="Arquitetura de um empreendimento Mundy" loading="lazy" className="aspect-[16/10] w-full object-cover" />
+            <div className="absolute inset-0 bg-brand/10" />
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-2 gap-8 border-t border-brand/15 pt-10 md:grid-cols-4 lg:col-span-12">
+          {stats.map(([number, label], index) => <Reveal key={label} delay={index * .08}><p className="font-display text-4xl text-brand sm:text-5xl">{number}</p><p className="mt-2 text-xs font-semibold uppercase text-brand/55">{label}</p></Reveal>)}
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function InvestorSection() {
