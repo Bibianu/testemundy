@@ -6,3 +6,5 @@
 - [x] Atualizar o conteúdo de Diferenciais
 - [x] Adicionar o botão Como chegar
 - [x] Validar a página em computador e celular
+- [x] Separar o vídeo em uma tela inicial exclusiva
+- [x] Corrigir o enquadramento do vídeo no celular

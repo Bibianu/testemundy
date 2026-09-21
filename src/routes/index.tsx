@@ -60,15 +60,20 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
 
 function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 30);
+    const update = () => {
+      const introHeight = document.getElementById("abertura")?.offsetHeight ?? window.innerHeight;
+      setVisible(window.scrollY >= introHeight - 80);
+      setScrolled(window.scrollY >= introHeight);
+    };
     update(); window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
   const links = [["A Construtora", "#construtora"], ["Empreendimentos", "#empreendimentos"], ["Diferenciais", "#diferenciais"], ["Investidores", "#investidores"], ["Contato", "#contato"]];
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled || open ? "bg-background/95 shadow-sm backdrop-blur-xl" : "bg-transparent"}`}>
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${visible || open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"} ${scrolled || open ? "bg-background/95 shadow-sm backdrop-blur-xl" : "bg-transparent"}`}>
       <div className="mx-auto grid h-20 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:px-8 lg:flex lg:px-10">
         <a href="#inicio" className={`flex min-w-0 items-center transition ${scrolled || open ? "rounded-md bg-brand px-3 py-2" : ""}`} aria-label="Mundy Construtora — início"><img src={mundyLogo} alt="Mundy Construtora" className="h-auto w-40 sm:w-44" /></a>
         <nav className={`ml-auto hidden items-center gap-7 text-xs font-semibold lg:flex ${scrolled ? "text-brand/70" : "text-cream/80"}`} aria-label="Navegação principal">
@@ -82,6 +87,16 @@ function Header() {
   );
 }
 
+function VideoIntro() {
+  return (
+    <section id="abertura" className="relative h-[100svh] min-h-[32rem] overflow-hidden bg-brand" aria-label="Apresentação Mundy Construtora">
+      <video autoPlay muted loop playsInline preload="metadata" poster={heroImage} aria-label="Alinea Contorno, empreendimento da Mundy Construtora" className="absolute inset-0 size-full object-cover object-center sm:object-center max-sm:object-[52%_center]">
+        <source src="/mundy-intro.mp4" type="video/mp4" />
+      </video>
+    </section>
+  );
+}
+
 function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
@@ -89,9 +104,7 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "12%"]);
   return (
     <section id="inicio" ref={ref} className="relative flex min-h-[92svh] items-end overflow-hidden bg-brand">
-      <motion.video style={{ y }} autoPlay muted loop playsInline poster={heroImage} aria-label="Alinea Contorno, empreendimento da Mundy Construtora" className="absolute inset-0 h-[112%] w-full object-cover">
-        <source src="/mundy-intro.mp4" type="video/mp4" />
-      </motion.video>
+      <motion.img style={{ y }} src={heroImage} alt="Alinea Contorno, empreendimento da Mundy Construtora" className="absolute inset-0 h-[112%] w-full object-cover" />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,color-mix(in_oklab,var(--color-brand)_88%,transparent),color-mix(in_oklab,var(--color-brand)_25%,transparent)_68%,transparent)]" />
       <div className="absolute inset-0 bg-[linear-gradient(0deg,color-mix(in_oklab,var(--color-brand)_70%,transparent),transparent_55%)]" />
       <div className="relative mx-auto w-full max-w-7xl px-5 pb-16 pt-32 sm:px-8 lg:px-10 lg:pb-24">
@@ -176,5 +189,16 @@ function Footer() {
 }
 
 function HomePage() {
-  return <div className="min-h-screen overflow-x-hidden bg-background text-brand"><Header /><main><Hero /><Projects /><Institution /><InvestorSection /><Differentials /><InstagramSection /><Contact /></main><Footer /><a href={WHATSAPP} target="_blank" rel="noreferrer" className="fixed bottom-5 right-5 z-40 grid size-14 place-items-center rounded-full bg-success text-cream shadow-xl transition hover:-translate-y-1" aria-label="Falar com a Mundy no WhatsApp"><MessageCircle size={24} /></a></div>;
+  const [showFloatingContact, setShowFloatingContact] = useState(false);
+  useEffect(() => {
+    const update = () => {
+      const introHeight = document.getElementById("abertura")?.offsetHeight ?? window.innerHeight;
+      setShowFloatingContact(window.scrollY >= introHeight - 80);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
+  return <div className="min-h-screen overflow-x-hidden bg-background text-brand"><Header /><main><VideoIntro /><Hero /><Projects /><Institution /><InvestorSection /><Differentials /><InstagramSection /><Contact /></main><Footer /><a href={WHATSAPP} target="_blank" rel="noreferrer" className={`fixed bottom-5 right-5 z-40 grid size-14 place-items-center rounded-full bg-success text-cream shadow-xl transition duration-300 hover:-translate-y-1 ${showFloatingContact ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"}`} aria-label="Falar com a Mundy no WhatsApp"><MessageCircle size={24} /></a></div>;
 }
